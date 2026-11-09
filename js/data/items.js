@@ -5,7 +5,9 @@
 (function (root) {
   const LC = (root.LC = root.LC || {});
   const O = '#3b2a20'; // outline
-  const SW = 'stroke="' + O + '" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"';
+  // the character and all cosmetics are drawn without outlines (flat style); chests keep theirs
+  const SW = '';
+  const CSW = 'stroke="' + O + '" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"';
   let uid = 0;
 
   const RARITY = {
@@ -104,7 +106,7 @@
   const beanie = (id, name, c) => def({ id, slot: 'hat', name, rarity: 'common', layers: { hat: `<path d="M56 50 Q56 8 100 6 Q144 8 144 50Z" fill="${c}" ${SW}/><rect x="50" y="40" width="100" height="16" rx="8" fill="${shade(c, -30)}" ${SW}/><circle cx="100" cy="4" r="9" fill="#fff" ${SW}/>` } });
   beanie('hat-beanie-blue', '毛線帽・藍', '#4f8cff');
   beanie('hat-beanie-red', '毛線帽・紅', '#ef4b5f');
-  def({ id: 'hat-headband', slot: 'hat', name: '運動頭帶', rarity: 'common', layers: { hat: `<path d="M54 54 Q100 30 146 54" stroke="${O}" stroke-width="11" fill="none" stroke-linecap="round"/><path d="M54 54 Q100 30 146 54" stroke="#ff5a5a" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M146 54 L160 46 M146 54 L160 64" stroke="#ff5a5a" stroke-width="5" stroke-linecap="round"/>` } });
+  def({ id: 'hat-headband', slot: 'hat', name: '運動頭帶', rarity: 'common', layers: { hat: `<path d="M54 54 Q100 30 146 54" stroke="#ff5a5a" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M146 54 L160 46 M146 54 L160 64" stroke="#ff5a5a" stroke-width="5" stroke-linecap="round"/>` } });
   def({ id: 'hat-straw', slot: 'hat', name: '冒險草帽', rarity: 'common', layers: { hat: `<ellipse cx="100" cy="42" rx="66" ry="13" fill="#f2cf73" ${SW}/><path d="M66 42 Q66 4 100 4 Q134 4 134 42Z" fill="#f2cf73" ${SW}/><path d="M67 32 Q100 26 133 32 L134 40 Q100 34 66 40Z" fill="#e5484d"/>` } });
   def({ id: 'hat-cat', slot: 'hat', name: '貓耳髮箍', rarity: 'rare', layers: { hat: `<path d="M58 46 L60 4 L90 28Z" fill="#3a3340" ${SW}/><path d="M64 36 L65 16 L80 28Z" fill="#ff9fc0"/><path d="M142 46 L140 4 L110 28Z" fill="#3a3340" ${SW}/><path d="M136 36 L135 16 L120 28Z" fill="#ff9fc0"/>` } });
   def({ id: 'hat-wizard', slot: 'hat', name: '見習法師帽', rarity: 'rare', layers: { hat: `<ellipse cx="100" cy="44" rx="62" ry="12" fill="#6d3fd1" ${SW}/><path d="M64 44 Q86 10 112 -30 Q118 -8 136 44Z" fill="#6d3fd1" ${SW}/><path d="M66 38 Q100 30 134 38 L135 44 Q100 38 65 44Z" fill="#ffd23f"/><path d="M104 10 l3 6 6 1 -4.5 4 1 6 -5.5 -3 -5.5 3 1 -6 -4.5 -4 6 -1z" fill="#ffd23f"/>` } });
@@ -124,14 +126,14 @@
   /* ================= FACE ================= */
   def({ id: 'face-round', slot: 'face', name: '圓框眼鏡', rarity: 'common', layers: { faceAcc: `<circle cx="81" cy="82" r="12" fill="rgba(255,255,255,.25)" stroke="#5b4636" stroke-width="3"/><circle cx="119" cy="82" r="12" fill="rgba(255,255,255,.25)" stroke="#5b4636" stroke-width="3"/><path d="M93 81 Q100 77 107 81" stroke="#5b4636" stroke-width="3" fill="none"/>` } });
   def({ id: 'face-bandage', slot: 'face', name: '勇者 OK 繃', rarity: 'common', layers: { faceAcc: `<g transform="rotate(-20 126 100)"><rect x="114" y="95" width="24" height="10" rx="4" fill="#ffd8a8" stroke="#c9905a" stroke-width="1.5"/><rect x="122" y="95" width="8" height="10" fill="#f5c38f"/></g>` } });
-  def({ id: 'face-sunglasses', slot: 'face', name: '酷炫墨鏡', rarity: 'rare', layers: { faceAcc: `<path d="M64 76 L96 76 Q96 94 81 94 Q66 94 64 76Z" fill="#1d1b24" ${SW}/><path d="M104 76 L136 76 Q134 94 119 94 Q104 94 104 76Z" fill="#1d1b24" ${SW}/><path d="M96 78 L104 78" stroke="${O}" stroke-width="3"/><path d="M70 80 L78 80" stroke="#fff" stroke-width="2" opacity=".6"/>` } });
+  def({ id: 'face-sunglasses', slot: 'face', name: '酷炫墨鏡', rarity: 'rare', layers: { faceAcc: `<path d="M64 76 L96 76 Q96 94 81 94 Q66 94 64 76Z" fill="#1d1b24" ${SW}/><path d="M104 76 L136 76 Q134 94 119 94 Q104 94 104 76Z" fill="#1d1b24" ${SW}/><path d="M96 78 L104 78" stroke="#1d1b24" stroke-width="3"/><path d="M70 80 L78 80" stroke="#fff" stroke-width="2" opacity=".6"/>` } });
   def({ id: 'face-star', slot: 'face', name: '閃亮星星貼紙', rarity: 'rare', layers: { faceAcc: `<path d="M128 90 l3.5 7 7.5 1 -5.5 5.2 1.4 7.6 -6.9 -3.7 -6.9 3.7 1.4 -7.6 -5.5 -5.2 7.5 -1z" fill="#ffd23f" stroke="#e0a400" stroke-width="1.2"/>` } });
   def({ id: 'face-fox', slot: 'face', name: '稻荷狐面', rarity: 'epic', layers: { faceAcc: `<g transform="rotate(18 136 56)"><path d="M116 70 L118 34 L130 48 L142 48 L154 34 L156 70 Q136 92 116 70Z" fill="#fff" ${SW}/><path d="M124 58 Q130 54 134 60 M138 60 Q142 54 148 58" stroke="#e5484d" stroke-width="3" fill="none"/><path d="M121 40 L127 48 M151 40 L145 48" stroke="#e5484d" stroke-width="3"/></g>` } });
   def({ id: 'face-visor', slot: 'face', name: '賽博護目鏡', rarity: 'legendary', layers: { faceAcc: `<path d="M58 72 Q100 64 142 72 L140 92 Q100 100 60 92Z" fill="rgba(34,211,238,.35)" stroke="#0e7490" stroke-width="3"/><rect class="anim-scan" x="62" y="74" width="76" height="3" fill="#a5f3fc"/><path d="M58 72 L50 80 M142 72 L150 80" stroke="#0e7490" stroke-width="3"/>` + sparkle(140, 70, 4, '#a5f3fc', 0.5) } });
 
   /* ================= TOPS ================= */
   const torso = (fill) => `<path d="M70 122 Q100 112 130 122 L134 184 Q100 192 66 184Z" fill="${fill}" ${SW}/>`;
-  const tee = (id, name, rarity, c, starter) => def({ id, slot: 'top', name, rarity, starter, sleeve: c, layers: { top: torso(c) + `<path d="M88 118 Q100 128 112 118" stroke="${O}" stroke-width="2" fill="none"/>` } });
+  const tee = (id, name, rarity, c, starter) => def({ id, slot: 'top', name, rarity, starter, sleeve: c, layers: { top: torso(c) + `<path d="M88 118 Q100 128 112 118" stroke="${shade(c, -40)}" stroke-width="2" fill="none"/>` } });
   tee('top-tee-white', '素面 T 恤', 'common', '#f8fafc', true);
   tee('top-tee-green', '森林 T 恤', 'common', '#4ade80');
   def({
@@ -146,7 +148,7 @@
     id: 'top-plaid', slot: 'top', name: '工程師格子衫', rarity: 'rare', sleeve: '#d64545',
     layers: (u) => ({
       defs: `<clipPath id="pl${u}"><path d="M70 122 Q100 112 130 122 L134 184 Q100 192 66 184Z"/></clipPath>`,
-      top: torso('#d64545') + `<g clip-path="url(#pl${u})" opacity=".55">${[72, 88, 104, 120].map((x) => `<rect x="${x}" y="110" width="6" height="90" fill="#3b1f1f"/>`).join('')}${[128, 146, 164, 182].map((y) => `<rect x="60" y="${y}" width="80" height="6" fill="#3b1f1f"/>`).join('')}</g><path d="M70 122 Q100 112 130 122 L134 184 Q100 192 66 184Z" fill="none" ${SW}/><path d="M100 118 L100 186" stroke="${O}" stroke-width="2"/><circle cx="104" cy="136" r="2" fill="#fff"/><circle cx="104" cy="154" r="2" fill="#fff"/><circle cx="104" cy="172" r="2" fill="#fff"/>`,
+      top: torso('#d64545') + `<g clip-path="url(#pl${u})" opacity=".55">${[72, 88, 104, 120].map((x) => `<rect x="${x}" y="110" width="6" height="90" fill="#3b1f1f"/>`).join('')}${[128, 146, 164, 182].map((y) => `<rect x="60" y="${y}" width="80" height="6" fill="#3b1f1f"/>`).join('')}</g><path d="M70 122 Q100 112 130 122 L134 184 Q100 192 66 184Z" fill="none" ${SW}/><path d="M100 118 L100 186" stroke="#7f1d1d" stroke-width="2"/><circle cx="104" cy="136" r="2" fill="#fff"/><circle cx="104" cy="154" r="2" fill="#fff"/><circle cx="104" cy="172" r="2" fill="#fff"/>`,
     }),
   });
   def({ id: 'top-uniform', slot: 'top', name: '學院制服', rarity: 'rare', sleeve: '#1e2a5a', layers: { top: torso('#1e2a5a') + `<path d="M84 118 L100 140 L116 118 L110 116 L100 126 L90 116Z" fill="#fff" ${SW}/><path d="M97 128 L103 128 L106 158 L100 166 L94 158Z" fill="#e5484d" ${SW}/><path d="M76 134 L86 134" stroke="#ffd23f" stroke-width="3"/>` } });
@@ -164,7 +166,7 @@
   const pants = (c, long) => `<path d="M68 176 L132 176 L133 ${long ? 224 : 200} L104 ${long ? 224 : 200} L100 196 L96 ${long ? 224 : 200} L67 ${long ? 224 : 200}Z" fill="${c}" ${SW}/>`;
   def({ id: 'bottom-jeans', slot: 'bottom', name: '經典牛仔褲', rarity: 'common', starter: true, layers: { bottom: pants('#3b6db3', true) + `<path d="M100 178 L100 194" stroke="${shade('#3b6db3', -40)}" stroke-width="2"/>` } });
   def({ id: 'bottom-shorts', slot: 'bottom', name: '探險短褲', rarity: 'common', layers: { bottom: pants('#c8a46a', false) } });
-  def({ id: 'bottom-skirt', slot: 'bottom', name: '百褶短裙', rarity: 'rare', layers: { bottom: `<path d="M68 176 L132 176 L142 206 L58 206Z" fill="#f472b6" ${SW}/>` + [72, 84, 96, 108, 120].map((x) => `<path d="M${x + 4} 180 L${x - 1 + (x - 100) * 0.25} 205" stroke="${O}" stroke-width="1.5" opacity=".5"/>`).join('') } });
+  def({ id: 'bottom-skirt', slot: 'bottom', name: '百褶短裙', rarity: 'rare', layers: { bottom: `<path d="M68 176 L132 176 L142 206 L58 206Z" fill="#f472b6" ${SW}/>` + [72, 84, 96, 108, 120].map((x) => `<path d="M${x + 4} 180 L${x - 1 + (x - 100) * 0.25} 205" stroke="#be185d" stroke-width="1.5" opacity=".7"/>`).join('') } });
   def({ id: 'bottom-cargo', slot: 'bottom', name: '軍綠工作褲', rarity: 'rare', layers: { bottom: pants('#6b7a3a', true) + `<rect x="70" y="196" width="14" height="12" rx="2" fill="#5a6830" ${SW}/><rect x="116" y="196" width="14" height="12" rx="2" fill="#5a6830" ${SW}/>` } });
   def({ id: 'bottom-armor', slot: 'bottom', name: '騎士護腿', rarity: 'epic', layers: { bottom: pants('#c3cede', true) + `<path d="M70 200 L96 200 M104 200 L130 200" stroke="#8c99ad" stroke-width="3"/><circle cx="83" cy="206" r="4" fill="#3b82f6"/><circle cx="117" cy="206" r="4" fill="#3b82f6"/>` } });
   def({
@@ -219,7 +221,7 @@
   def({ id: 'pet-ghost', slot: 'pet', name: '小幽靈 Boo', rarity: 'rare', layers: { pet: pet(`<path d="M-14 8 Q-16 -18 0 -18 Q16 -18 14 8 L9 4 L4 9 L0 4 L-4 9 L-9 4Z" fill="#f1f5f9" ${SW}/><circle cx="-5" cy="-6" r="2.2" fill="${O}"/><circle cx="5" cy="-6" r="2.2" fill="${O}"/><ellipse cx="0" cy="1" rx="2.5" ry="3" fill="${O}"/>`) } });
   def({ id: 'pet-slime', slot: 'pet', name: '史萊姆寶寶', rarity: 'epic', layers: { pet: pet(`<path d="M-18 10 Q-20 -16 0 -18 Q20 -16 18 10Z" fill="#4ade80" ${SW}/><ellipse cx="-6" cy="-10" rx="4" ry="3" fill="#bbf7d0"/><circle cx="-6" cy="-1" r="2.4" fill="${O}"/><circle cx="6" cy="-1" r="2.4" fill="${O}"/><path d="M-3 4 Q0 7 3 4" stroke="${O}" stroke-width="1.8" fill="none"/>`) } });
   def({ id: 'pet-cat', slot: 'pet', name: '橘貓 Bug 喵', rarity: 'epic', layers: { pet: pet(`<path d="M14 6 Q30 0 26 -14" stroke="#f59e0b" stroke-width="5" fill="none" stroke-linecap="round"/><ellipse cx="0" cy="2" rx="16" ry="12" fill="#f59e0b" ${SW}/><path d="M-13 -6 L-12 -20 L-3 -10Z M13 -6 L12 -20 L3 -10Z" fill="#f59e0b" ${SW}/><circle cx="-5" cy="-1" r="2" fill="${O}"/><circle cx="5" cy="-1" r="2" fill="${O}"/><path d="M-2 4 Q0 6 2 4" stroke="${O}" stroke-width="1.6" fill="none"/>`) } });
-  def({ id: 'pet-dragon', slot: 'pet', name: '小龍 Dijkstra', rarity: 'legendary', layers: { pet: pet(`<g class="anim-flap" style="transform-origin:-6px -6px"><path d="M-6 -6 Q-22 -26 -28 -10 Q-18 -10 -14 -2Z" fill="#a78bfa" ${SW}/></g><ellipse cx="0" cy="2" rx="15" ry="13" fill="#34d399" ${SW}/><path d="M-8 -8 L-6 -18 L-2 -10 M8 -8 L6 -18 L2 -10" stroke="${O}" stroke-width="2" fill="#fde68a"/><circle cx="-5" cy="-1" r="2.4" fill="${O}"/><circle cx="5" cy="-1" r="2.4" fill="${O}"/><ellipse cx="0" cy="7" rx="7" ry="4" fill="#bbf7d0"/>` + sparkle(18, -18, 4, '#fff7c2', 0.5)) } });
+  def({ id: 'pet-dragon', slot: 'pet', name: '小龍 Dijkstra', rarity: 'legendary', layers: { pet: pet(`<g class="anim-flap" style="transform-origin:-6px -6px"><path d="M-6 -6 Q-22 -26 -28 -10 Q-18 -10 -14 -2Z" fill="#a78bfa" ${SW}/></g><ellipse cx="0" cy="2" rx="15" ry="13" fill="#34d399" ${SW}/><path d="M-8 -8 L-6 -18 L-2 -10 M8 -8 L6 -18 L2 -10" fill="#fde68a"/><circle cx="-5" cy="-1" r="2.4" fill="${O}"/><circle cx="5" cy="-1" r="2.4" fill="${O}"/><ellipse cx="0" cy="7" rx="7" ry="4" fill="#bbf7d0"/>` + sparkle(18, -18, 4, '#fff7c2', 0.5)) } });
 
   const BY_ID = Object.fromEntries(ITEMS.map((i) => [i.id, i]));
   const STARTERS = ITEMS.filter((i) => i.starter).map((i) => i.id);
@@ -258,13 +260,13 @@
     let eyes;
     if (mood === 'win') eyes = `<path d="M74 84 Q81 74 88 84" stroke="${O}" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M112 84 Q119 74 126 84" stroke="${O}" stroke-width="3.2" fill="none" stroke-linecap="round"/>`;
     else if (mood === 'hurt') eyes = `<path d="M75 76 L87 86 M87 76 L75 86" stroke="${O}" stroke-width="3" stroke-linecap="round"/><path d="M113 76 L125 86 M125 76 L113 86" stroke="${O}" stroke-width="3" stroke-linecap="round"/>`;
-    else eyes = `<g class="anim-blink"><ellipse cx="81" cy="82" rx="6.5" ry="8.5" fill="${eye}"/><ellipse cx="119" cy="82" rx="6.5" ry="8.5" fill="${eye}"/><circle cx="83.5" cy="78.5" r="2.6" fill="#fff"/><circle cx="121.5" cy="78.5" r="2.6" fill="#fff"/><circle cx="79" cy="86" r="1.2" fill="#fff" opacity=".8"/><circle cx="117" cy="86" r="1.2" fill="#fff" opacity=".8"/></g>`;
+    else eyes = `<g class="anim-blink"><ellipse cx="81" cy="83" rx="4" ry="5.2" fill="${eye}"/><ellipse cx="119" cy="83" rx="4" ry="5.2" fill="${eye}"/></g>`;
     const mouth = mood === 'hurt' ? `<path d="M93 101 Q100 95 107 101" stroke="${O}" stroke-width="2.4" fill="none" stroke-linecap="round"/>` :
-      mood === 'win' ? `<path d="M91 96 Q100 108 109 96Z" fill="#c2410c" stroke="${O}" stroke-width="2" stroke-linejoin="round"/>` :
+      mood === 'win' ? `<path d="M91 96 Q100 108 109 96Z" fill="#c2410c"/>` :
         `<path d="M93 97 Q100 103 107 97" stroke="${O}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`;
     const base = {
       'base-legs': `<rect x="84" y="176" width="13" height="52" rx="6" fill="${skin}" ${SW}/><rect x="103" y="176" width="13" height="52" rx="6" fill="${skin}" ${SW}/>`,
-      'base-arms': `<path d="M76 130 Q62 146 62 166" stroke="${O}" stroke-width="16" fill="none" stroke-linecap="round"/><path d="M124 130 Q138 146 138 166" stroke="${O}" stroke-width="16" fill="none" stroke-linecap="round"/><path d="M76 130 Q62 146 62 166" stroke="${sleeve}" stroke-width="11" fill="none" stroke-linecap="round"/><path d="M124 130 Q138 146 138 166" stroke="${sleeve}" stroke-width="11" fill="none" stroke-linecap="round"/><circle cx="62" cy="171" r="8" fill="${skin}" ${SW}/><circle cx="138" cy="171" r="8" fill="${skin}" ${SW}/>`,
+      'base-arms': `<path d="M76 130 Q62 146 62 166" stroke="${sleeve}" stroke-width="11" fill="none" stroke-linecap="round"/><path d="M124 130 Q138 146 138 166" stroke="${sleeve}" stroke-width="11" fill="none" stroke-linecap="round"/><circle cx="62" cy="171" r="8" fill="${skin}" ${SW}/><circle cx="138" cy="171" r="8" fill="${skin}" ${SW}/>`,
       'base-head': `<rect x="93" y="108" width="14" height="14" fill="${skin}"/><ellipse cx="53" cy="84" rx="7" ry="10" fill="${skin}" ${SW}/><ellipse cx="147" cy="84" rx="7" ry="10" fill="${skin}" ${SW}/><ellipse cx="100" cy="74" rx="47" ry="44" fill="${skin}" ${SW}/>${eyes}<ellipse cx="69" cy="96" rx="7.5" ry="4.5" fill="#ff8fa3" opacity=".55"/><ellipse cx="131" cy="96" rx="7.5" ry="4.5" fill="#ff8fa3" opacity=".55"/>${mouth}`,
     };
     let body = '';
@@ -283,7 +285,7 @@
     for (const k of LAYER_ORDER) if (L[k]) body += L[k];
     if (item.slot === 'top') {
       // show sleeves too
-      body = `<path d="M76 130 Q62 146 62 166" stroke="${O}" stroke-width="16" fill="none" stroke-linecap="round"/><path d="M124 130 Q138 146 138 166" stroke="${O}" stroke-width="16" fill="none" stroke-linecap="round"/><path d="M76 130 Q62 146 62 166" stroke="${item.sleeve}" stroke-width="11" fill="none" stroke-linecap="round"/><path d="M124 130 Q138 146 138 166" stroke="${item.sleeve}" stroke-width="11" fill="none" stroke-linecap="round"/>` + body;
+      body = `<path d="M76 130 Q62 146 62 166" stroke="${item.sleeve}" stroke-width="11" fill="none" stroke-linecap="round"/><path d="M124 130 Q138 146 138 166" stroke="${item.sleeve}" stroke-width="11" fill="none" stroke-linecap="round"/>` + body;
     }
     const vb = { hat: '30 -40 140 110', hair: '10 -10 180 210', face: '45 25 120 100', top: '40 100 120 110', bottom: '45 165 110 75', shoes: '45 195 110 60', hand: '90 50 110 150', back: '-5 60 210 170', pet: '140 180 70 70' }[item.slot];
     return `<svg class="item-svg" viewBox="${vb}" xmlns="http://www.w3.org/2000/svg">${defs ? '<defs>' + defs + '</defs>' : ''}${body}</svg>`;
@@ -305,10 +307,10 @@
     const open = !!opts.open;
     const gem = type === 'diamond' ? `<path d="M100 74 L110 84 L100 98 L90 84Z" fill="#a5f3fc" stroke="#0e7490" stroke-width="2.5"/>` : type === 'gold' ? `<circle cx="100" cy="86" r="9" fill="#fef08a" stroke="#854d0e" stroke-width="2.5"/>` : `<rect x="92" y="78" width="16" height="16" rx="3" fill="#facc15" stroke="${O}" stroke-width="2.5"/>`;
     const lid = open
-      ? `<path d="M36 72 L46 26 Q100 12 154 26 L164 72Z" fill="${shade(c.color, -45)}" ${SW}/><path d="M48 66 L56 34 Q100 22 144 34 L152 66Z" fill="${shade(c.color, -75)}"/><path d="M42 30 Q100 14 158 30 L160 22 Q100 4 40 22Z" fill="url(#cl${u})" ${SW}/>`
-      : `<path d="M36 70 Q36 34 100 34 Q164 34 164 70Z" fill="url(#cl${u})" ${SW}/><rect x="36" y="64" width="128" height="10" fill="${c.color}" ${SW}/>${gem}`;
+      ? `<path d="M36 72 L46 26 Q100 12 154 26 L164 72Z" fill="${shade(c.color, -45)}" ${CSW}/><path d="M48 66 L56 34 Q100 22 144 34 L152 66Z" fill="${shade(c.color, -75)}"/><path d="M42 30 Q100 14 158 30 L160 22 Q100 4 40 22Z" fill="url(#cl${u})" ${CSW}/>`
+      : `<path d="M36 70 Q36 34 100 34 Q164 34 164 70Z" fill="url(#cl${u})" ${CSW}/><rect x="36" y="64" width="128" height="10" fill="${c.color}" ${CSW}/>${gem}`;
     const glow = open ? `<ellipse cx="100" cy="68" rx="56" ry="14" fill="#fffbe6" opacity=".95" class="anim-glow"/>` : '';
-    return `<svg class="chest-svg${opts.cls ? ' ' + opts.cls : ''}" viewBox="20 10 160 130" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="cl${u}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c.light}"/><stop offset="1" stop-color="${c.color}"/></linearGradient><linearGradient id="cb${u}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c.color}"/><stop offset="1" stop-color="${shade(c.color, -50)}"/></linearGradient></defs><ellipse cx="100" cy="128" rx="66" ry="8" fill="rgba(0,0,0,.2)"/>${open ? lid + glow : ''}<rect x="36" y="70" width="128" height="54" rx="6" fill="url(#cb${u})" ${SW}/><rect x="36" y="70" width="128" height="10" fill="${shade(c.color, -25)}" opacity=".6"/><rect x="56" y="70" width="12" height="54" fill="${shade(c.light, -10)}" ${SW}/><rect x="132" y="70" width="12" height="54" fill="${shade(c.light, -10)}" ${SW}/>${open ? '' : lid}${type === 'diamond' ? sparkle(48, 40, 6, '#fff', 0) + sparkle(156, 52, 5, '#fff', 0.7) : ''}</svg>`;
+    return `<svg class="chest-svg${opts.cls ? ' ' + opts.cls : ''}" viewBox="20 10 160 130" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="cl${u}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c.light}"/><stop offset="1" stop-color="${c.color}"/></linearGradient><linearGradient id="cb${u}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c.color}"/><stop offset="1" stop-color="${shade(c.color, -50)}"/></linearGradient></defs><ellipse cx="100" cy="128" rx="66" ry="8" fill="rgba(0,0,0,.2)"/>${open ? lid + glow : ''}<rect x="36" y="70" width="128" height="54" rx="6" fill="url(#cb${u})" ${CSW}/><rect x="36" y="70" width="128" height="10" fill="${shade(c.color, -25)}" opacity=".6"/><rect x="56" y="70" width="12" height="54" fill="${shade(c.light, -10)}" ${CSW}/><rect x="132" y="70" width="12" height="54" fill="${shade(c.light, -10)}" ${CSW}/>${open ? '' : lid}${type === 'diamond' ? sparkle(48, 40, 6, '#fff', 0) + sparkle(156, 52, 5, '#fff', 0.7) : ''}</svg>`;
   }
 
   LC.Items = { ITEMS, BY_ID, SLOTS, RARITY, CHESTS, CHEST_ORDER, STARTERS, DEFAULT_EQUIP, SKINS, EYES };
