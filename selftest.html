@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<title>Leet Castle 自我測試</title>
+<style>
+  body { font-family: system-ui, sans-serif; background: #111827; color: #e5e7eb; padding: 16px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  td, th { border-bottom: 1px solid #374151; padding: 4px 8px; text-align: left; }
+  .ok { color: #34d399; } .bad { color: #f87171; } .warn { color: #fbbf24; }
+</style>
+</head>
+<body>
+<h1>Leet Castle 自我測試</h1>
+<p>使用每題的參考解答（JavaScript 與 Python）跑完整測試與複雜度分析。網址參數：<code>?lang=javascript|python|both</code>、<code>&amp;only=題目id,題目id</code>。</p>
+<div id="summary">執行中…</div>
+<table><thead><tr><th>題目</th><th>語言</th><th>結果</th><th>時間 (量測 / 最佳)</th><th>空間 (量測 / 最佳)</th><th>點</th></tr></thead><tbody id="rows"></tbody></table>
+<script src="vendor/acorn-wrapped.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/util.js"></script>
+<script src="js/engine/complexity.js"></script>
+<script src="js/engine/js-worker.js"></script>
+<script src="js/engine/py-worker.js"></script>
+<script src="js/engine/runner.js"></script>
+<script src="js/data/problems.js"></script>
+<script src="js/data/problems-extra.js"></script>
+<script>
+(async function () {
+  const q = new URLSearchParams(location.search);
+  const langs = (q.get('lang') || 'both') === 'both' ? ['javascript', 'python'] : [q.get('lang')];
+  const only = q.get('only') ? q.get('only').split(',') : null;
+  const rows = document.getElementById('rows');
+  const C = LC.Complexity;
+  const report = [];
+  let bad = 0, warn = 0;
+  for (const lang of langs) {
+    for (const P of Object.values(LC.Problems)) {
+      if (only && !only.includes(P.id)) continue;
+      const code = LC.util.solutionCode(P, lang);
+      let r;
+      try { r = await LC.Runner.submit(P, lang, code); } catch (e) { r = { status: 'JSERR', message: String(e && e.stack || e) }; }
+      const tr = document.createElement('tr');
+      const a = r.analysis;
+      const cx = P.cx || null;
+      let tCls = '', sCls = '';
+      if (a && cx && !a.error) {
+        tCls = C.compare(a.time, cx.time) === 0 ? 'ok' : C.compare(a.time, cx.time) < 0 ? 'warn' : 'bad';
+        sCls = C.compare(a.space, cx.space) === 0 ? 'ok' : C.compare(a.space, cx.space) < 0 ? 'warn' : 'bad';
+      }
+      const st = r.status === 'AC' ? 'ok' : 'bad';
+      if (st === 'bad' || tCls === 'bad' || sCls === 'bad') bad++;
+      if (tCls === 'warn' || sCls === 'warn') warn++;
+      const failInfo = r.status !== 'AC' ? ' ' + (r.message || (r.first ? (r.first.error || ('got ' + JSON.stringify(r.first.output) + ' exp ' + JSON.stringify(r.first.expected) + ' args ' + JSON.stringify(r.first.args).slice(0, 200))) : '')) : '';
+      tr.innerHTML = '<td>' + P.id + '</td><td>' + lang + '</td><td class="' + st + '">' + r.status + (r.passed !== undefined ? ' ' + r.passed + '/' + r.total : '') + LC.util.esc(failInfo) + '</td>' +
+        '<td class="' + tCls + '">' + (a && !a.error ? a.time + ' / ' + (cx ? cx.time : '-') : '-') + '</td>' +
+        '<td class="' + sCls + '">' + (a && !a.error ? a.space + ' / ' + (cx ? cx.space : '-') : '-') + '</td>' +
+        '<td>' + (a && a.points ? a.points.map((p) => p.n + ':' + p.ops + '/' + Math.round(p.peak) + '/' + p.depth + (p.tle ? '!' : '')).join(' ') : '') + '</td>';
+      rows.appendChild(tr);
+      report.push({ id: P.id, lang, status: r.status, info: failInfo, time: a && a.time, space: a && a.space, optTime: cx && cx.time, optSpace: cx && cx.space, tCls, sCls, points: a && a.points });
+    }
+  }
+  document.getElementById('summary').textContent = '完成：' + report.length + ' 項，錯誤 ' + bad + '，警告 ' + warn;
+  window.__selftest = { done: true, report, bad, warn };
+})();
+</script>
+</body>
+</html>
